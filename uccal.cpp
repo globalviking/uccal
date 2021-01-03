@@ -134,6 +134,7 @@ class UCCDate {
         }
 
         i parse(string s) {
+            return 0;
             // // first check for an ISO 8601 datestring, which has a 'T' marking the time element
             // if (str.indexOf('T') != -1) {
             //     return UnixToUCC((new Date(str)).valueOf());
@@ -211,15 +212,18 @@ class UCCDate {
         string triadSymbol() { return (triad() ? TSYMBOLS[triad() - 1] : "0"); }
 };
 
+void displayThreeMonthsSpanningTheDate(bool sundayHighlight, bool mondayHighlight){
+
+}
+
 void displaySingleMonthOutput(){
     auto now = UCCDate();
     int month=now.triad();
     int dday=now.day();
     {
-        cout << "        " << MONTHS[month] << "-" << now.triadName() << now.triadSymbol();
+        cout << "        " << MONTHS[month] << "-" << now.triadName() << " " << now.triadSymbol() << " " << now.year();
         printf("\n ☉  ☿  ♀  ⊕  ♂  ⚳  ♃  ♄  ♅  ♆\n");
 
-        // Print all the dates for one month
         for (int day = 1; day <= 30; day++){
             if (day == dday)
                 printf("\033[30;107m%2d\033[39;49m", dday);
@@ -241,7 +245,7 @@ int main(int argc, char **argv){
     bool _1 = true;
     bool _3 = false;
     opterr = 0;
-    while ( (opt = getopt(argc, argv, "13")) != -1 ) {  // for each option...
+    while ( (opt = getopt(argc, argv, "13")) != -1 ){
         switch ( opt ) {
             case '3':
                 _3 = true;
@@ -252,7 +256,7 @@ int main(int argc, char **argv){
         }
     }
     if(_3){
-
+        // displayThreeMonthsSpanningTheDate();
     } else if(_1){
         displaySingleMonthOutput();
     }
