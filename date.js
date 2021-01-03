@@ -1,3 +1,4 @@
+#!/usr/bin/env node
 /* UCC library to convert UCC dates to ISO 8601 dates and vice-versa,
  * provide a UCCDate() object with properties detailing aspects
  * of a UCC date.

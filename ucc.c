@@ -12,7 +12,7 @@ int get_date()
     FILE *p;
     char ch;
 
-  p = popen("node UCCdate.js","r");
+    p = popen("node UCCdate.js","r");
     if( p == NULL)
     {
         puts("Unable to open process");
@@ -36,36 +36,36 @@ int get_date()
 
 void calendar(int year, int daycode)
 {
-        int month, day;
-        int dday=13;
-        month=10;
+    int month, day;
+    int dday=13;
+    month=10;
+    {
+        printf("        %s-%s%s", months[month],triads[month],tsymbols[month]);
+        /*printf("\n pr se te qu qu se se oi no de\n");*/
+        printf("\n ☉  ☿  ♀  ⊕  ♂  ⚳  ♃  ♄  ♅  ♆\n");
+
+        // Print all the dates for one month
+        for (day = 1; day <= 30; day++)
         {
-                printf("        %s-%s%s", months[month],triads[month],tsymbols[month]);
-                /*printf("\n pr se te qu qu se se oi no de\n");*/
-                printf("\n ☉  ☿  ♀  ⊕  ♂  ⚳  ♃  ♄  ♅  ♆\n");
+            if ( day == dday)
+                printf("\033[30;107m%2d\033[39;49m", dday);
+            else
+                printf("%2d", day);
 
-                // Print all the dates for one month
-                for (day = 1; day <= 30; day++)
-                {
-                        if ( day == dday)
-                                printf("\033[30;107m%2d\033[39;49m", dday);
-                        else
-                                printf("%2d", day);
-
-                        // Is day before ♆? Else start next line ☉.
-                        if ((day + daycode) % 10 > 0)
-                                printf(" ");
-                        else
-                                printf("\n");
-                }
+            // Is day before ♆? Else start next line ☉.
+            if ((day + daycode) % 10 > 0)
+                printf(" ");
+            else
+                printf("\n");
         }
+    }
 }
 
 int main(int argc, char *argv[])
 {	
-	get_date();	
-	int year, daycode, leapyear;
-        daycode=0;
-	calendar(year, daycode);
-	printf("\n");
+    get_date();	
+    int year, daycode, leapyear;
+    daycode=0;
+    calendar(year, daycode);
+    printf("\n");
 }
