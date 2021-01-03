@@ -2,7 +2,6 @@
 #include <chrono>
 #include <cmath>
 
-#define VERSION "1.0.6"
 #define OFFSET -425128348800000     // offset of UCC Epoc from Unix Epoc in milliseconds
 #define ONE_DAY 86400000            // 24 * 60 * 60 * 1000 ms
 #define ONE_YEAR 31536000000        // 365 * 24 * 60 * 60 * 1000 ms
@@ -185,6 +184,13 @@ class UCCDate {
             if (doy() == 1) return "1st ZERO " + to_string(year());
             string ord = day() > 0 ? ordinal(day()) : "0";
             return ord + ' ' + numbers[triad() -1] + '-' + TRIADS[triad() -1] + TSYMBOLS[triad() -1] + ' ' + to_string(year());
+        }
+
+        string outLong() {
+            if (doy() == 0) return "0 ZERO " + to_string(year());
+            if (doy() == 1) return "1st ZERO " + to_string(year());
+            string ord = (day() > 0 ? ordinal(day()) : "0");
+            return ord + ' ' + TRIADS[triad() -1] + TSYMBOLS[triad() -1] + ' ' + to_string(year());
         }
 
         i day(){ return msToDay(instant); }
