@@ -1,6 +1,8 @@
-#include <iostream>
-#include <chrono>
-#include <cmath>
+#include<chrono>
+#include<cmath>
+#include<iostream>
+#include<string>
+#include<unistd.h>
 
 #define OFFSET -425128348800000     // offset of UCC Epoc from Unix Epoc in milliseconds
 #define ONE_DAY 86400000            // 24 * 60 * 60 * 1000 ms
@@ -17,6 +19,7 @@ const char *HICANS[] = {"Varuna","Surya","Budha","Shukra","Thal","Mangala","Shak
 const char *GREECANS[] = {"Poseidon","Helios","Hermes","Aphrodite","Terra","Ares","Demeter","Zeus","Cronus","Caelus"};
 const char *DSYMBOLS[] = {"\u2646","\u2609","\u263F","\u2640","\u2295","\u2642","\u26B3","\u2643","\u2644","\u2645"};
 const char *MOONS[] = {"New","Waxing crescent","1st quarter","Waxing gibbous","Full","Waning gibbous","3rd quarter","Waning crescent"};
+const char *MONTHS[]={" ","ONE","TWO","THREE","FOUR","FIVE","SIX","SEVEN","EIGHT","NINE","TEN","ELEVEN","TWELVE"};
 // const char *MSYMBOLS[] = {"\uD83C\uDF11","\uD83C\uDF12","\uD83C\uDF13","\uD83C\uDF14","\uD83C\uDF15","\uD83C\uDF16","\uD83C\uDF17","\uD83c\uDF18"};
 const char *MSYMBOLS[] = {"🌑", "🌒", "🌓", "🌔", "🌕", "🌖", "🌗", "🌘" };
 
@@ -208,7 +211,49 @@ class UCCDate {
         string triadSymbol() { return (triad() ? TSYMBOLS[triad() - 1] : "0"); }
 };
 
+void displaySingleMonthOutput(){
+    auto now = UCCDate();
+    int month=now.triad();
+    int dday=now.day();
+    {
+        cout << "        " << MONTHS[month] << "-" << now.triadName() << now.triadSymbol();
+        printf("\n ☉  ☿  ♀  ⊕  ♂  ⚳  ♃  ♄  ♅  ♆\n");
+
+        // Print all the dates for one month
+        for (int day = 1; day <= 30; day++){
+            if (day == dday)
+                printf("\033[30;107m%2d\033[39;49m", dday);
+            else
+                printf("%2d", day);
+
+            // Is day before ♆? Else start next line ☉.
+            if (day % 10 > 0)
+                printf(" ");
+            else
+                printf("\n");
+        }
+    }
+}
+
 int main(int argc, char **argv){
-    auto d = UCCDate();
-    cout << d.outFull() << endl;
+    int opt;
+
+    bool _1 = true;
+    bool _3 = false;
+    opterr = 0;
+    while ( (opt = getopt(argc, argv, "13")) != -1 ) {  // for each option...
+        switch ( opt ) {
+            case '3':
+                _3 = true;
+                break;
+            case '?':
+                cerr << "Unknown option: '" << char(optopt) << endl;
+                break;
+        }
+    }
+    if(_3){
+
+    } else if(_1){
+        displaySingleMonthOutput();
+    }
 }
